@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<unload unload_date="2017-04-18 09:42:28">
+<sys_script_client action="INSERT_OR_UPDATE">
+<active>true</active>
+<applies_extended>false</applies_extended>
+<condition/>
+<description>sysverb_new</description>
+<field>u_2nd_email</field>
+<global>true</global>
+<messages/>
+<name>New button</name>
+<order/>
+<script><![CDATA[function onLoad() {
+    //Change the color of the 'Approve' button to green
+    transformButton('new', '#77FF77', 'white', 'icon-user-add');
+    //Change the color of the 'New' button to green
+    transformButton('sysverb_new', '#77FF77', 'black', 'icon-add');
+}
+
+function transformButton(buttonID, buttonBackgroundColor, buttonTextColor, buttonIconName) {
+    try{
+        //Find the button(s) by ID and change the background color
+        $$('button[id=' + buttonID + ']').each(function(elmt) {
+            elmt.style.backgroundColor = buttonBackgroundColor;
+            if(buttonTextColor){
+                elmt.style.color = buttonTextColor;
+            }
+            if(buttonIconName){
+                elmt.addClassName(buttonIconName);
+                //Add some spacing between the icon and button label
+                elmt.innerHTML = ' ' + elmt.innerHTML;
+            }
+        });
+    }catch(e){}
+}]]></script>
+<sys_class_name>sys_script_client</sys_class_name>
+<sys_created_by>david.edgar</sys_created_by>
+<sys_created_on>2017-04-18 09:30:14</sys_created_on>
+<sys_customer_update>true</sys_customer_update>
+<sys_domain>global</sys_domain>
+<sys_domain_path>/</sys_domain_path>
+<sys_id>3d116dc4db1afa00dc49f3d31d961960</sys_id>
+<sys_mod_count>3</sys_mod_count>
+<sys_name>New button</sys_name>
+<sys_overrides display_value=""/>
+<sys_package display_value="Global">global</sys_package>
+<sys_policy/>
+<sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+<sys_scope display_value="Global">global</sys_scope>
+<sys_update_name>sys_script_client_3d116dc4db1afa00dc49f3d31d961960</sys_update_name>
+<sys_updated_by>david.edgar</sys_updated_by>
+<sys_updated_on>2017-04-18 09:32:43</sys_updated_on>
+<table>sys_user</table>
+<type>onLoad</type>
+<ui_type>0</ui_type>
+<view/>
+</sys_script_client>
+<sys_script_client action="INSERT_OR_UPDATE">
+<active>true</active>
+<applies_extended>false</applies_extended>
+<condition/>
+<description>icon-error-circle</description>
+<field>sys_created_on</field>
+<global>true</global>
+<messages/>
+<name>Global Button Colours</name>
+<order/>
+<script><![CDATA[function onLoad() {
+    //Change the color of the 'Approve' button to green
+//     transformButton('delete', '#77FF77', 'white', 'icon-workflow-approved');
+    //Change the color of the 'Reject' button to red
+    transformButton('sysverb_delete', '#FF0022', 'white', 'icon-error-circle');
+	transformButton('resolve_incident_caller', '#77FF77', 'black', 'icon-success');
+	transformButton('resolve_incident', '#77FF77', 'black', 'icon-success');
+}
+
+function transformButton(buttonID, buttonBackgroundColor, buttonTextColor, buttonIconName) {
+    try{
+        //Find the button(s) by ID and change the background color
+        $$('button[id=' + buttonID + ']').each(function(elmt) {
+            elmt.style.backgroundColor = buttonBackgroundColor;
+            if(buttonTextColor){
+                elmt.style.color = buttonTextColor;
+            }
+            if(buttonIconName){
+                elmt.addClassName(buttonIconName);
+                //Add some spacing between the icon and button label
+                elmt.innerHTML = ' ' + elmt.innerHTML;
+            }
+        });
+    }catch(e){}
+}]]></script>
+<sys_class_name>sys_script_client</sys_class_name>
+<sys_created_by>david.edgar</sys_created_by>
+<sys_created_on>2017-04-18 09:20:35</sys_created_on>
+<sys_customer_update>true</sys_customer_update>
+<sys_domain>global</sys_domain>
+<sys_domain_path>/</sys_domain_path>
+<sys_id>181f5544db1afa00dc49f3d31d961971</sys_id>
+<sys_mod_count>5</sys_mod_count>
+<sys_name>Global Button Colours</sys_name>
+<sys_overrides display_value=""/>
+<sys_package display_value="Global">global</sys_package>
+<sys_policy/>
+<sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+<sys_scope display_value="Global">global</sys_scope>
+<sys_update_name>sys_script_client_181f5544db1afa00dc49f3d31d961971</sys_update_name>
+<sys_updated_by>david.edgar</sys_updated_by>
+<sys_updated_on>2017-04-18 09:26:55</sys_updated_on>
+<table>global</table>
+<type>onLoad</type>
+<ui_type>0</ui_type>
+<view/>
+</sys_script_client>
+<sys_script_client action="INSERT_OR_UPDATE">
+<active>false</active>
+<applies_extended>false</applies_extended>
+<condition/>
+<description/>
+<field>u_3rd_party_deployment_team</field>
+<global>true</global>
+<messages/>
+<name>Move to Review UI Button</name>
+<order/>
+<script><![CDATA[function onLoad() {
+    //Change the color of the 'Approve' button to green
+    transformButton('request.approval', '#77FF77', 'black', 'icon-check-circle');
+   //Change the color of the 'Reject' button to red    transformButton('save', '#FF0022', 'white', 'icon-workflow-rejected');
+}
+ function transformButton(buttonID, buttonBackgroundColor, buttonTextColor, buttonIconName) {
+    try{
+        //Find the button(s) by ID and change the background color
+         $$('button[id=' + buttonID + ']').each(function(elmt) {
+             elmt.style.backgroundColor = buttonBackgroundColor;
+             if(buttonTextColor){
+                 elmt.style.color = buttonTextColor;
+             }
+             if(buttonIconName){
+                 elmt.addClassName(buttonIconName);
+//                 //Add some spacing between the icon and button label
+                 elmt.innerHTML = '  ' + elmt.innerHTML;
+             }
+         });
+     }catch(e){}
+   //Change the color of the 'Approve' button to green
+ //  changeButtonColor('request.approval', '#00CC00');
+   //Change the color of the 'Reject' button to red
+//    changeButtonColor('reject', '#CC0000');
+
+}]]></script>
+<sys_class_name>sys_script_client</sys_class_name>
+<sys_created_by>david.edgar</sys_created_by>
+<sys_created_on>2017-04-18 09:00:56</sys_created_on>
+<sys_customer_update>true</sys_customer_update>
+<sys_domain>global</sys_domain>
+<sys_domain_path>/</sys_domain_path>
+<sys_id>ef2a510cdbd6fa00dc49f3d31d9619ae</sys_id>
+<sys_mod_count>8</sys_mod_count>
+<sys_name>Move to Review UI Button</sys_name>
+<sys_overrides display_value=""/>
+<sys_package display_value="Global">global</sys_package>
+<sys_policy/>
+<sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+<sys_scope display_value="Global">global</sys_scope>
+<sys_update_name>sys_script_client_ef2a510cdbd6fa00dc49f3d31d9619ae</sys_update_name>
+<sys_updated_by>david.edgar</sys_updated_by>
+<sys_updated_on>2017-04-18 09:19:02</sys_updated_on>
+<table>change_request</table>
+<type>onLoad</type>
+<ui_type>0</ui_type>
+<view/>
+</sys_script_client>
+<sys_script_client action="INSERT_OR_UPDATE">
+<active>true</active>
+<applies_extended>false</applies_extended>
+<condition/>
+<description/>
+<field>approval_column</field>
+<global>true</global>
+<messages/>
+<name>Button Colours</name>
+<order/>
+<script><![CDATA[function onLoad() {
+    //Change the color of the 'Approve' button to green
+    transformButton('approve', '#77FF77', 'black', 'icon-workflow-approved');
+//    Change the color of the 'Reject' button to red    
+   transformButton('reject', '#FF0022', 'white', 'icon-workflow-rejected');
+}
+ function transformButton(buttonID, buttonBackgroundColor, buttonTextColor, buttonIconName) {
+    try{
+        //Find the button(s) by ID and change the background color
+         $$('button[id=' + buttonID + ']').each(function(elmt) {
+             elmt.style.backgroundColor = buttonBackgroundColor;
+             if(buttonTextColor){
+                 elmt.style.color = buttonTextColor;
+             }
+             if(buttonIconName){
+                 elmt.addClassName(buttonIconName);
+//                 //Add some spacing between the icon and button label
+                 elmt.innerHTML = '  ' + elmt.innerHTML;
+             }
+         });
+     }catch(e){}
+   //Change the color of the 'Approve' button to green
+ //  changeButtonColor('request.approval', '#00CC00');
+   //Change the color of the 'Reject' button to red
+//    changeButtonColor('reject', '#CC0000');
+
+}]]></script>
+<sys_class_name>sys_script_client</sys_class_name>
+<sys_created_by>david.edgar</sys_created_by>
+<sys_created_on>2017-04-18 09:06:56</sys_created_on>
+<sys_customer_update>true</sys_customer_update>
+<sys_domain>global</sys_domain>
+<sys_domain_path>/</sys_domain_path>
+<sys_id>052cd14cdbd6fa00dc49f3d31d961962</sys_id>
+<sys_mod_count>1</sys_mod_count>
+<sys_name>Button Colours</sys_name>
+<sys_overrides display_value=""/>
+<sys_package display_value="Global">global</sys_package>
+<sys_policy/>
+<sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+<sys_scope display_value="Global">global</sys_scope>
+<sys_update_name>sys_script_client_052cd14cdbd6fa00dc49f3d31d961962</sys_update_name>
+<sys_updated_by>david.edgar</sys_updated_by>
+<sys_updated_on>2017-04-18 09:17:39</sys_updated_on>
+<table>sysapproval_approver</table>
+<type>onLoad</type>
+<ui_type>0</ui_type>
+<view/>
+</sys_script_client>
+</unload>
