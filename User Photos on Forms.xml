@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<unload unload_date="2017-05-08 09:44:40">
+<sys_remote_update_set action="INSERT_OR_UPDATE">
+<application display_value="Global">global</application>
+<application_name>Global</application_name>
+<application_scope>global</application_scope>
+<application_version/>
+<collisions/>
+<commit_date/>
+<deleted/>
+<description/>
+<inserted/>
+<name>User Images for Forms</name>
+<origin_sys_id/>
+<release_date/>
+<remote_sys_id>3d0a90e2db223200a48b55d0cf9619ae</remote_sys_id>
+<state>loaded</state>
+<summary/>
+<sys_class_name>sys_remote_update_set</sys_class_name>
+<sys_created_by>admin</sys_created_by>
+<sys_created_on>2017-05-08 09:44:39</sys_created_on>
+<sys_id>6aa46caadb223200a48b55d0cf961930</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_updated_by>admin</sys_updated_by>
+<sys_updated_on>2017-05-08 09:44:39</sys_updated_on>
+<update_set display_value=""/>
+<update_source display_value=""/>
+<updated/>
+</sys_remote_update_set>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="Global">global</application>
+<category>customer</category>
+<comments/>
+<name>sys_ui_formatter_529a14a6db223200a48b55d0cf96191c</name>
+<payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ui_formatter"><sys_ui_formatter action="INSERT_OR_UPDATE"><active>true</active><angular_module/><formatter>cf_live_profile_photo</formatter><name>CF Live Profile Photo</name><sys_class_name>sys_ui_formatter</sys_class_name><sys_created_by>admin</sys_created_by><sys_created_on>2017-05-08 09:01:15</sys_created_on><sys_customer_update>true</sys_customer_update><sys_id>529a14a6db223200a48b55d0cf96191c</sys_id><sys_mod_count>0</sys_mod_count><sys_name>CF Live Profile Photo</sys_name><sys_package display_value="Global" source="global">global</sys_package><sys_policy/><sys_replace_on_upgrade>false</sys_replace_on_upgrade><sys_scope display_value="Global">global</sys_scope><sys_update_name>sys_ui_formatter_529a14a6db223200a48b55d0cf96191c</sys_update_name><sys_updated_by>admin</sys_updated_by><sys_updated_on>2017-05-08 09:01:15</sys_updated_on><table>incident</table><type>formatter</type></sys_ui_formatter></record_update>]]></payload>
+<remote_update_set display_value="User Images for Forms">6aa46caadb223200a48b55d0cf961930</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>admin</sys_created_by>
+<sys_created_on>2017-05-08 09:44:39</sys_created_on>
+<sys_id>2aa46caadb223200a48b55d0cf961931</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_updated_by>admin</sys_updated_by>
+<sys_updated_on>2017-05-08 09:44:39</sys_updated_on>
+<table>incident</table>
+<target_name>CF Live Profile Photo</target_name>
+<type>UI Formatter</type>
+<update_domain>global</update_domain>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="Global">global</application>
+<category>customer</category>
+<comments/>
+<name>sys_script_include_bbda94a6db223200a48b55d0cf961962</name>
+<payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update table="sys_script_include"&gt;&lt;sys_script_include action="INSERT_OR_UPDATE"&gt;&lt;access&gt;public&lt;/access&gt;&lt;active&gt;true&lt;/active&gt;&lt;api_name&gt;global.cf_LiveProfile&lt;/api_name&gt;&lt;client_callable&gt;true&lt;/client_callable&gt;&lt;description&gt;Intended to be called by a GlideAjax call. Retrieves the user photo from the Live Profile, if possible, otherwise gets the photo from the user record if possible. It then returns the path to the photo or an empty string if none can be found.&lt;/description&gt;&lt;name&gt;cf_LiveProfile&lt;/name&gt;&lt;script&gt;&lt;![CDATA[var cf_LiveProfile = Class.create();
+cf_LiveProfile.prototype = Object.extendsObject(AbstractAjaxProcessor, {
+
+    /*
+    * Retrieves the user photo from the Live Profile, if possible, otherwise
+    * gets the photo from the user record if possible.
+    *
+    * Returns the path to the photo or an empty string
+    */
+    getPhoto: function(){
+        // Get the Sys ID of the user that we're retrieving the photo for
+        var user_id = this.getParameter('sysparm_user_id');
+        gs.log("getPhoto called for: " + user_id, "cf_LiveProfile");
+        var photo_path;
+        
+        // Query for the live profile record
+        var live_profile_gr = new GlideRecord('live_profile');
+        live_profile_gr.addQuery('document', user_id);
+        live_profile_gr.query();
+        if(live_profile_gr.next()) {
+            if(live_profile_gr.photo.getDisplayValue()){
+                photo_path = live_profile_gr.photo.getDisplayValue();
+                gs.log("Retrieved photo from live profile: " + photo_path, "cf_LiveProfile");
+
+            }
+        }
+        // Check to see if we have a photo from the profile
+        if(!photo_path){
+            // No profile photo found, query for the user photo
+            var user_gr = new GlideRecord('sys_user');
+            user_gr.addQuery('sys_id', user_id);
+            user_gr.query();
+            if(user_gr.next()) {
+                photo_path = user_gr.photo.getDisplayValue();
+                gs.log("Retrieved photo from user record: " + photo_path, "cf_LiveProfile");
+            } else {
+                photo_path = '';
+                gs.log("No photo found", "cf_LiveProfile");
+            }
+        }
+        return photo_path;
+    },
+    type: 'cf_LiveProfile'
+});]]&gt;&lt;/script&gt;&lt;sys_class_name&gt;sys_script_include&lt;/sys_class_name&gt;&lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2017-05-08 09:02:47&lt;/sys_created_on&gt;&lt;sys_customer_update&gt;true&lt;/sys_customer_update&gt;&lt;sys_id&gt;bbda94a6db223200a48b55d0cf961962&lt;/sys_id&gt;&lt;sys_mod_count&gt;0&lt;/sys_mod_count&gt;&lt;sys_name&gt;cf_LiveProfile&lt;/sys_name&gt;&lt;sys_package display_value="Global" source="global"&gt;global&lt;/sys_package&gt;&lt;sys_policy/&gt;&lt;sys_replace_on_upgrade&gt;false&lt;/sys_replace_on_upgrade&gt;&lt;sys_scope display_value="Global"&gt;global&lt;/sys_scope&gt;&lt;sys_update_name&gt;sys_script_include_bbda94a6db223200a48b55d0cf961962&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2017-05-08 09:02:47&lt;/sys_updated_on&gt;&lt;/sys_script_include&gt;&lt;/record_update&gt;</payload>
+<remote_update_set display_value="User Images for Forms">6aa46caadb223200a48b55d0cf961930</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>admin</sys_created_by>
+<sys_created_on>2017-05-08 09:44:39</sys_created_on>
+<sys_id>66a46caadb223200a48b55d0cf961931</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_updated_by>admin</sys_updated_by>
+<sys_updated_on>2017-05-08 09:44:39</sys_updated_on>
+<table/>
+<target_name>cf_LiveProfile</target_name>
+<type>Script Include</type>
+<update_domain>global</update_domain>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="Global">global</application>
+<category>customer</category>
+<comments/>
+<name>sys_script_client_bb3b98a6db223200a48b55d0cf961930</name>
+<payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update sys_domain="global" table="sys_script_client"&gt;&lt;sys_script_client action="INSERT_OR_UPDATE"&gt;&lt;active&gt;true&lt;/active&gt;&lt;applies_extended&gt;false&lt;/applies_extended&gt;&lt;condition/&gt;&lt;description&gt;Loads the Live Profile photo of the user when the Name field is filled in. Requires the CF Live Profile Photo Formatter to be on the form.&lt;/description&gt;&lt;field&gt;caller_id&lt;/field&gt;&lt;global&gt;true&lt;/global&gt;&lt;messages/&gt;&lt;name&gt;Load Caller Photo&lt;/name&gt;&lt;order/&gt;&lt;script&gt;&lt;![CDATA[function onChange(control, oldValue, newValue, isLoading, isTemplate) {
+    if (newValue === '') {
+        cf_setLiveProfilePhoto('');
+        return;
+    }
+    
+    // Call back to the server to get the path of the user's profile picture
+    var ga = new GlideAjax('cf_LiveProfile');
+    ga.addParam('sysparm_name','getPhoto');
+    ga.addParam('sysparm_user_id', newValue);
+    ga.getXMLAnswer(function(answer){
+        cf_setLiveProfilePhoto(answer + '');
+    });
+    
+}]]&gt;&lt;/script&gt;&lt;sys_class_name&gt;sys_script_client&lt;/sys_class_name&gt;&lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2017-05-08 09:04:32&lt;/sys_created_on&gt;&lt;sys_customer_update&gt;true&lt;/sys_customer_update&gt;&lt;sys_domain&gt;global&lt;/sys_domain&gt;&lt;sys_domain_path/&gt;&lt;sys_id&gt;bb3b98a6db223200a48b55d0cf961930&lt;/sys_id&gt;&lt;sys_mod_count&gt;0&lt;/sys_mod_count&gt;&lt;sys_name&gt;Load Caller Photo&lt;/sys_name&gt;&lt;sys_overrides/&gt;&lt;sys_package display_value="Global" source="global"&gt;global&lt;/sys_package&gt;&lt;sys_policy/&gt;&lt;sys_replace_on_upgrade&gt;false&lt;/sys_replace_on_upgrade&gt;&lt;sys_scope display_value="Global"&gt;global&lt;/sys_scope&gt;&lt;sys_update_name&gt;sys_script_client_bb3b98a6db223200a48b55d0cf961930&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2017-05-08 09:04:32&lt;/sys_updated_on&gt;&lt;table&gt;incident&lt;/table&gt;&lt;type&gt;onChange&lt;/type&gt;&lt;ui_type&gt;0&lt;/ui_type&gt;&lt;view/&gt;&lt;/sys_script_client&gt;&lt;/record_update&gt;</payload>
+<remote_update_set display_value="User Images for Forms">6aa46caadb223200a48b55d0cf961930</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>admin</sys_created_by>
+<sys_created_on>2017-05-08 09:44:39</sys_created_on>
+<sys_id>a2a46caadb223200a48b55d0cf961931</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_updated_by>admin</sys_updated_by>
+<sys_updated_on>2017-05-08 09:44:39</sys_updated_on>
+<table>incident</table>
+<target_name>Load Caller Photo</target_name>
+<type>Client Script</type>
+<update_domain>global</update_domain>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="Global">global</application>
+<category>customer</category>
+<comments/>
+<name>sys_ui_macro_1b3adc66db223200a48b55d0cf9619fb</name>
+<payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update table="sys_ui_macro"&gt;&lt;sys_ui_macro action="INSERT_OR_UPDATE"&gt;&lt;active&gt;true&lt;/active&gt;&lt;category&gt;general&lt;/category&gt;&lt;description/&gt;&lt;media_type/&gt;&lt;name&gt;cf_live_profile_photo&lt;/name&gt;&lt;scoped_name/&gt;&lt;sys_class_name&gt;sys_ui_macro&lt;/sys_class_name&gt;&lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2017-05-08 09:00:02&lt;/sys_created_on&gt;&lt;sys_customer_update&gt;true&lt;/sys_customer_update&gt;&lt;sys_id&gt;1b3adc66db223200a48b55d0cf9619fb&lt;/sys_id&gt;&lt;sys_mod_count&gt;0&lt;/sys_mod_count&gt;&lt;sys_name&gt;cf_live_profile_photo&lt;/sys_name&gt;&lt;sys_package display_value="Global" source="global"&gt;global&lt;/sys_package&gt;&lt;sys_policy/&gt;&lt;sys_replace_on_upgrade&gt;false&lt;/sys_replace_on_upgrade&gt;&lt;sys_scope display_value="Global"&gt;global&lt;/sys_scope&gt;&lt;sys_update_name&gt;sys_ui_macro_1b3adc66db223200a48b55d0cf9619fb&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2017-05-08 09:00:02&lt;/sys_updated_on&gt;&lt;xml&gt;&lt;![CDATA[&lt;?xml version="1.0" encoding="utf-8" ?&gt;
+&lt;j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null"&gt;
+    &lt;script&gt;
+        function cf_setLiveProfilePhoto(photo_path){
+            jslog("Setting photo to: " + photo_path);
+            try{
+                // Get the div from below so we can set the contents to the image
+                var photo_div = document.getElementById('cf_live_profile_photo');
+                if(photo_path){
+                    // This uses the thumbnail size image from the Live Profile and keeps the image small on the form
+                    var photo_html = "${LT}img style='max-width: 40%;' src='" + photo_path + "?t=small'/&gt;";
+                    // This uses the full size image that was uploaded and scales it down to fit the space. 
+                    // This will generally produce a larger image and depending on the form, images, and 
+                    // space available, this may be a preferable option.
+                    //var photo_html = "${LT}img style='max-width: 40%;' src='" + photo_path + "'/&gt;";
+                    photo_div.innerHTML = photo_html;
+                } else {
+                    // No image was specified so clear out the div
+                    photo_div.innerHTML = '';
+                }
+            } catch(e){
+                jslog("Unable to update photo: " + e.message);
+            }
+        }
+    &lt;/script&gt;
+    &lt;div style="text-align: center;" id="cf_live_profile_photo"&gt;&lt;/div&gt;
+&lt;/j:jelly&gt;]]&gt;&lt;/xml&gt;&lt;/sys_ui_macro&gt;&lt;/record_update&gt;</payload>
+<remote_update_set display_value="User Images for Forms">6aa46caadb223200a48b55d0cf961930</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>admin</sys_created_by>
+<sys_created_on>2017-05-08 09:44:39</sys_created_on>
+<sys_id>eaa46caadb223200a48b55d0cf961931</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_updated_by>admin</sys_updated_by>
+<sys_updated_on>2017-05-08 09:44:39</sys_updated_on>
+<table/>
+<target_name>cf_live_profile_photo</target_name>
+<type>Macro</type>
+<update_domain>global</update_domain>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+</unload>
