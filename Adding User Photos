@@ -1,0 +1,136 @@
+https://www.servicenowguru.com/system-ui/add-user-profile-photo-to-form/
+
+Add a user profile photo to a form
+
+There are times when it is helpful to just put a name with a face. In ServiceNow there are a couple places where a user photo might be stored but it’s not always intuitive how get at that photo in a way that can be helpful.
+
+Let’s walk through how this can be done with a handful of updates and relatively little trouble. The goal of this is to put a user photo just under the Caller field on the incident form so that the person working the incident can see who they’re working with. This could have numerous benefits ranging from a verification that you’ve got the right person in a walk-up scenario all the way to showing the agent on the phone that it’s a real person they are interacting with, prompting a little more thought into how they can truly help that person.
+
+User Profile photo on the incident form
+
+
+To set this up we need to understand that there are a couple places where the image might be stored. In the early days of ServiceNow it would have always been on the user record. But now we have collaboration tools built in and some great functionality within Service Portal and other areas that utilize the Live Profile which includes the user avatar photo and ability to easily update it.
+
+This is most easily updated by users in Service Portal from the Profile page.
+
+To set this up we need four main components and then a quick update to the form layout to add the Live Profile Photo to it.
+
+First we need to set up a UI Macro that acts as our container on the form for the photo. It contains a simple div with an ID that we target from within a client script.
+
+‘cf_live_profile_photo’ UI Macro
+Name: cf_live_profile_photo
+Description: Used in a formatter as the container for placing the live profile photo for a user. The div is populated by an onChange script on the form.
+XML:
+<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
+    <script>
+        function cf_setLiveProfilePhoto(photo_path){
+            jslog("Setting photo to: " + photo_path);
+            try{
+                // Get the div from below so we can set the contents to the image
+                var photo_div = document.getElementById('cf_live_profile_photo');
+                if(photo_path){
+                    // This uses the thumbnail size image from the Live Profile and keeps the image small on the form
+                    var photo_html = "${LT}img style='max-width: 40%;' src='" + photo_path + "?t=small'/>";
+                    // This uses the full size image that was uploaded and scales it down to fit the space. 
+                    // This will generally produce a larger image and depending on the form, images, and 
+                    // space available, this may be a preferable option.
+                    //var photo_html = "${LT}img style='max-width: 40%;' src='" + photo_path + "'/>";
+                    photo_div.innerHTML = photo_html;
+                } else {
+                    // No image was specified so clear out the div
+                    photo_div.innerHTML = '';
+                }
+            } catch(e){
+                jslog("Unable to update photo: " + e.message);
+            }
+        }
+    </script>
+    <div style="text-align: center;" id="cf_live_profile_photo"></div>
+</j:jelly>
+After that we need to create a Formatter that lets us place that UI Macro on the form.
+
+‘CF Live Profile Photo’ UI Formatter
+Name: CF Live Profile Photo
+Formatter: cf_live_profile_photo
+Table: Incident [incident] (or whatever table the photos should be shown on)
+Type: Formatter
+Now we need to create the script include that will look up the user photo. This first checks the live_profile record for the logged in user and if nothing is found there, checks for a photo on the user record.
+
+‘cf_LiveProfile’ Script Include
+Name: cf_LiveProfile
+Client callable: True
+Description: Intended to be called by a GlideAjax call. Retrieves the user photo from the Live Profile, if possible, otherwise gets the photo from the user record if possible. It then returns the path to the photo or an empty string if none can be found.
+Script:
+var cf_LiveProfile = Class.create();
+cf_LiveProfile.prototype = Object.extendsObject(AbstractAjaxProcessor, {
+
+    /*
+    * Retrieves the user photo from the Live Profile, if possible, otherwise
+    * gets the photo from the user record if possible.
+    *
+    * Returns the path to the photo or an empty string
+    */
+    getPhoto: function(){
+        // Get the Sys ID of the user that we're retrieving the photo for
+        var user_id = this.getParameter('sysparm_user_id');
+        gs.log("getPhoto called for: " + user_id, "cf_LiveProfile");
+        var photo_path;
+        
+        // Query for the live profile record
+        var live_profile_gr = new GlideRecord('live_profile');
+        live_profile_gr.addQuery('document', user_id);
+        live_profile_gr.query();
+        if(live_profile_gr.next()) {
+            if(live_profile_gr.photo.getDisplayValue()){
+                photo_path = live_profile_gr.photo.getDisplayValue();
+                gs.log("Retrieved photo from live profile: " + photo_path, "cf_LiveProfile");
+
+            }
+        }
+        // Check to see if we have a photo from the profile
+        if(!photo_path){
+            // No profile photo found, query for the user photo
+            var user_gr = new GlideRecord('sys_user');
+            user_gr.addQuery('sys_id', user_id);
+            user_gr.query();
+            if(user_gr.next()) {
+                photo_path = user_gr.photo.getDisplayValue();
+                gs.log("Retrieved photo from user record: " + photo_path, "cf_LiveProfile");
+            } else {
+                photo_path = '';
+                gs.log("No photo found", "cf_LiveProfile");
+            }
+        }
+        return photo_path;
+    },
+    type: 'cf_LiveProfile'
+});
+The last component before we add this to our form and see the photos is to set up a Client Script that will listen for a change in the user reference field on the form. For our example, this is the Caller field on the Incident form, but it could easily be shown on a different table. The important thing is that the reference field be for the User [sys_user] table.
+
+‘Load Caller Photo’ Client Script
+Name: Load Caller Photo
+Table: Incident [incident]
+UI Type: Desktop
+Type: onChange
+Field name: Caller
+Description: Loads the Live Profile photo of the user when the Name field is filled in. Requires the CF Live Profile Photo Formatter to be on the form.
+Script:
+function onChange(control, oldValue, newValue, isLoading, isTemplate) {
+    if (newValue === '') {
+        cf_setLiveProfilePhoto('');
+        return;
+    }
+    
+    // Call back to the server to get the path of the user's profile picture
+    var ga = new GlideAjax('cf_LiveProfile');
+    ga.addParam('sysparm_name','getPhoto');
+    ga.addParam('sysparm_user_id', newValue);
+    ga.getXMLAnswer(function(answer){
+        cf_setLiveProfilePhoto(answer + '');
+    });
+    
+}
+Now that we have all of these components set up, you should be able to go to the Incident form and add “CF Live Profile Photo” to the form layout. Then when you change the Caller field to a user that has a photo you should see the photo show up.
+
+Thanks to Dan Andrews for the idea!
