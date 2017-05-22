@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<unload unload_date="2017-05-22 11:40:26">
+<sys_ui_mobile_theme action="INSERT_OR_UPDATE">
+<accent_color>#005A35</accent_color>
+<base_theme>default</base_theme>
+<name>SpeciesMobile</name>
+<navigation_accent_color>#005A35</navigation_accent_color>
+<navigation_bar_color>#009252</navigation_bar_color>
+<navigation_bar_title/>
+<navigation_title_color>white</navigation_title_color>
+<sys_class_name>sys_ui_mobile_theme</sys_class_name>
+<sys_created_by>admin</sys_created_by>
+<sys_created_on>2017-05-22 11:29:12</sys_created_on>
+<sys_customer_update>true</sys_customer_update>
+<sys_id>ca224d8fdb323200a48b55d0cf961955</sys_id>
+<sys_mod_count>3</sys_mod_count>
+<sys_name>SpeciesMobile</sys_name>
+<sys_package display_value="Global">global</sys_package>
+<sys_policy/>
+<sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+<sys_scope display_value="Global">global</sys_scope>
+<sys_update_name>sys_ui_mobile_theme_ca224d8fdb323200a48b55d0cf961955</sys_update_name>
+<sys_updated_by>admin</sys_updated_by>
+<sys_updated_on>2017-05-22 11:39:50</sys_updated_on>
+<title_image/>
+<toolbar_accent_color>#009252</toolbar_accent_color>
+<toolbar_color>white</toolbar_color>
+</sys_ui_mobile_theme>
+</unload>
