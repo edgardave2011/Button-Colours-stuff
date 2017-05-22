@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<unload unload_date="2017-05-22 13:30:47">
+<sys_remote_update_set action="INSERT_OR_UPDATE">
+<application display_value="Global">global</application>
+<application_name>Global</application_name>
+<application_scope>global</application_scope>
+<application_version/>
+<collisions/>
+<commit_date/>
+<deleted/>
+<description>https://specsavers.atlassian.net/browse/DSNK-790</description>
+<inserted/>
+<name>DE - DSNK-790 - Ticker Bar</name>
+<origin_sys_id/>
+<release_date/>
+<remote_sys_id>55fd1d43dbfe76402ab570d9bf96195e</remote_sys_id>
+<state>loaded</state>
+<summary/>
+<sys_class_name>sys_remote_update_set</sys_class_name>
+<sys_created_by>david.edgar</sys_created_by>
+<sys_created_on>2017-05-22 13:30:47</sys_created_on>
+<sys_id>97ae1943dbfe76402ab570d9bf9619cd</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_updated_by>david.edgar</sys_updated_by>
+<sys_updated_on>2017-05-22 13:30:47</sys_updated_on>
+<update_set display_value=""/>
+<update_source display_value=""/>
+<updated/>
+</sys_remote_update_set>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="Global">global</application>
+<category>customer</category>
+<comments/>
+<name>content_block_programmatic_9e465a6e379602006c522b2943990ea0</name>
+<payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update table="content_block_programmatic"&gt;&lt;content_block_programmatic action="INSERT_OR_UPDATE"&gt;&lt;active&gt;true&lt;/active&gt;&lt;category&gt;general&lt;/category&gt;&lt;condition/&gt;&lt;conditional&gt;false&lt;/conditional&gt;&lt;frame/&gt;&lt;logged_on&gt;false&lt;/logged_on&gt;&lt;name&gt;Specsaver - Marquee v2&lt;/name&gt;&lt;programmatic_content&gt;&lt;![CDATA[&lt;?xml version="1.0" encoding="utf-8" ?&gt;
+&lt;j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null"&gt;
+	&lt;g:evaluate var="jvar_kb"&gt;
+		var kb = new GlideRecord('kb_knowledge');    
+		var now = gs.dateGenerate(gs.yesterday(), 'end');
+		kb.addQuery('valid_to','&gt;', now);
+		kb.addQuery('kb_category.labelLIKETicker');
+		kb.addQuery('workflow_state','published');
+		kb.setLimit(5);
+		kb.query();
+	&lt;/g:evaluate&gt;
+
+	&lt;j:if test="${kb.hasNext()}"&gt;
+	&lt;div&gt;
+		&lt;marquee scrollamount="1" scrolldelay="13" truespeed="truespeed" bgcolor="#ffffff" onmouseover="this.stop();" onmouseout="this.start();" style="padding:4px 0"&gt;&lt;font size="5" color="white"&gt;
+			&lt;tr&gt;
+			&lt;j:while test="${kb.next()}"&gt;
+				&lt;j:set var="jvar_kb_link" value="kb_view.do?sys_kb_id=${kb.sys_id}"/&gt;
+				&lt;div style="padding-left:60px; display:inline;"&gt;
+					&lt;a href="/specsavers/knowledge.do?sysparm_id=${jvar_kb_link}"&gt; ${kb.short_description} &lt;/a&gt;
+				&lt;/div&gt;
+				&lt;/j:while&gt;
+			&lt;/tr&gt;
+			&lt;/font&gt;&lt;/marquee&gt;
+		&lt;/div&gt;
+	&lt;/j:if&gt;
+&lt;/j:jelly&gt;]]&gt;&lt;/programmatic_content&gt;&lt;sys_class_name&gt;content_block_programmatic&lt;/sys_class_name&gt;&lt;sys_created_by&gt;admin.mohammed&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2015-09-07 19:11:55&lt;/sys_created_on&gt;&lt;sys_customer_update&gt;true&lt;/sys_customer_update&gt;&lt;sys_id&gt;9e465a6e379602006c522b2943990ea0&lt;/sys_id&gt;&lt;sys_mod_count&gt;95&lt;/sys_mod_count&gt;&lt;sys_name&gt;Specsaver - Marquee v2&lt;/sys_name&gt;&lt;sys_package display_value="Global" source="global"&gt;global&lt;/sys_package&gt;&lt;sys_policy/&gt;&lt;sys_replace_on_upgrade&gt;false&lt;/sys_replace_on_upgrade&gt;&lt;sys_scope display_value="Global"&gt;global&lt;/sys_scope&gt;&lt;sys_update_name&gt;content_block_programmatic_9e465a6e379602006c522b2943990ea0&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;david.edgar&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2017-05-22 13:28:16&lt;/sys_updated_on&gt;&lt;two_phase&gt;false&lt;/two_phase&gt;&lt;/content_block_programmatic&gt;&lt;/record_update&gt;</payload>
+<remote_update_set display_value="DE - DSNK-790 - Ticker Bar">97ae1943dbfe76402ab570d9bf9619cd</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>david.edgar</sys_created_by>
+<sys_created_on>2017-05-22 13:30:47</sys_created_on>
+<sys_id>1bae1943dbfe76402ab570d9bf9619cd</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_updated_by>david.edgar</sys_updated_by>
+<sys_updated_on>2017-05-22 13:30:47</sys_updated_on>
+<table/>
+<target_name>Specsaver - Marquee v2</target_name>
+<type>Dynamic Content</type>
+<update_domain>global</update_domain>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+</unload>
