@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<unload unload_date="2017-06-19 12:59:56">
+<sys_remote_update_set action="INSERT_OR_UPDATE">
+<application display_value="Global">global</application>
+<application_name>Global</application_name>
+<application_scope>global</application_scope>
+<application_version/>
+<collisions/>
+<commit_date/>
+<deleted/>
+<description>Creates a global UI Action that will add any record (plus attachments) to the active update set:
+-Appears as link at the bottom of each record
+-For adding multiple records at once, appears as a drop-down menu option on each list
+</description>
+<inserted/>
+<name>Add to Update Set UI Action v1.4</name>
+<origin_sys_id/>
+<release_date/>
+<remote_sys_id>4943df974f57a60419baf9b7c210c757</remote_sys_id>
+<state>loaded</state>
+<summary/>
+<sys_class_name>sys_remote_update_set</sys_class_name>
+<sys_created_by>david.edgar</sys_created_by>
+<sys_created_on>2017-06-19 12:59:56</sys_created_on>
+<sys_id>e424e984dbeb7a802ab570d9bf961988</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_updated_by>david.edgar</sys_updated_by>
+<sys_updated_on>2017-06-19 12:59:56</sys_updated_on>
+<update_set display_value=""/>
+<update_source display_value=""/>
+<updated/>
+</sys_remote_update_set>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="Global">global</application>
+<category>retrieved</category>
+<comments/>
+<name>sys_trigger_1cd433f16f85210015244035eb3ee411</name>
+<payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_trigger"><sys_trigger action="INSERT_OR_UPDATE"><application/><calendar/><claimed_by/><document/><document_key/><error_count>0</error_count><job_context/><job_id display_value="RunScriptJob">81c92ce9c0a8016400e5f0d2f784ea78</job_id><last_error/><log>false</log><maintenance>false</maintenance><max_drift/><name>Share Install Logger</name><next_action>2014-01-01 23:29:16</next_action><parent/><priority>100</priority><processing_duration>0</processing_duration><repeat/><run_count>0</run_count><run_dayofmonth/><run_dayofweek>1</run_dayofweek><run_month>1</run_month><run_time>1970-01-01 08:00:00</run_time><run_weekinmonth>1</run_weekinmonth><script>var logClient = new GlideSimpleHTTPClient('https://share.servicenow.com/installLogger.do');&#13;
+var query_string = 'installed_by=' + gs.getUserName() + '&amp;instance_name=' + gs.getProperty('instance_name') + '&amp;artifact=f7a28d5613925600e77a36666144b0ad&amp;content=a594033487046900f18b46089d434d92';&#13;
+gs.log('posting to: ' + query_string);&#13;
+logClient.get(query_string);</script><state>0</state><sys_created_by/><sys_created_on/><sys_id>1cd433f16f85210015244035eb3ee411</sys_id><sys_mod_count/><sys_updated_by/><sys_updated_on/><system_id/><trigger_class>DEFAULT</trigger_class><trigger_type>0</trigger_type></sys_trigger></record_update>]]></payload>
+<remote_update_set display_value="Add to Update Set UI Action v1.4">e424e984dbeb7a802ab570d9bf961988</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>david.edgar</sys_created_by>
+<sys_created_on>2017-06-19 12:59:56</sys_created_on>
+<sys_id>6824e984dbeb7a802ab570d9bf961988</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_updated_by>david.edgar</sys_updated_by>
+<sys_updated_on>2017-06-19 12:59:56</sys_updated_on>
+<table/>
+<target_name>Share Install Logger</target_name>
+<type>Schedule Item</type>
+<update_domain>global</update_domain>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="Global">global</application>
+<category>retrieved</category>
+<comments/>
+<name>sys_ui_action_131e99ed49e8950002ad45cc9609026f</name>
+<payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update sys_domain="global" table="sys_ui_action"&gt;&lt;sys_ui_action action="INSERT_OR_UPDATE"&gt;&lt;action_name&gt;add_update_set&lt;/action_name&gt;&lt;active&gt;true&lt;/active&gt;&lt;client&gt;false&lt;/client&gt;&lt;comments/&gt;&lt;condition&gt;gs.hasRole('admin')&lt;/condition&gt;&lt;form_action&gt;true&lt;/form_action&gt;&lt;form_button&gt;false&lt;/form_button&gt;&lt;form_context_menu&gt;false&lt;/form_context_menu&gt;&lt;form_link&gt;true&lt;/form_link&gt;&lt;hint/&gt;&lt;list_action&gt;true&lt;/list_action&gt;&lt;list_banner_button&gt;false&lt;/list_banner_button&gt;&lt;list_button&gt;false&lt;/list_button&gt;&lt;list_choice&gt;true&lt;/list_choice&gt;&lt;list_context_menu&gt;false&lt;/list_context_menu&gt;&lt;list_link&gt;false&lt;/list_link&gt;&lt;list_save_with_form_button&gt;false&lt;/list_save_with_form_button&gt;&lt;name&gt;Add to Update Set&lt;/name&gt;&lt;onclick/&gt;&lt;order&gt;100&lt;/order&gt;&lt;script&gt;&lt;![CDATA[addToUpdateSet();
+
+function addToUpdateSet(){
+	//Get current URL for return
+	var url = GlideSession.get().getStack().bottom();
+	
+	//Set to force update and save current record
+	current.setForceUpdate(true);
+	current.update();
+	
+	//Initialize updateManager
+	var updateManager = new GlideUpdateManager2();
+	
+	//If record is already included in update sets on save, do nothing
+	var currTable = current.getTableName();
+	if(currTable.startsWith('wf_') || currTable.startsWith('sys_ui_') || currTable == 'sys_choice' ||  current.getED().getAttribute('update_synch') == 'true' || current.getED().getAttribute('update_synch_custom') == 'true'){
+		//Do nothing
+	}
+	//Else, add the record into the current update set
+	else{
+		updateManager.saveRecord(current);
+	}
+	
+	//If the current record *has* attachments, add those
+	if (current.hasAttachments()){
+		addAttachments(current, currTable);
+	}
+	
+	//If the current record *is* an attachment, add the chunks
+	if (currTable == 'sys_attachment'){
+		var attach_doc = new GlideRecord("sys_attachment_doc");
+		attach_doc.addQuery("sys_attachment", current.sys_id.toString());
+		attach_doc.orderBy("position");
+		attach_doc.query();
+		while (attach_doc.next()) {
+			updateManager.saveRecord(attach_doc);
+		}
+	}
+	
+	//Display confirmation
+	var currentSet = new GlideRecord('sys_update_set');
+	currentSet.get(gs.getPreference('sys_update_set'));
+	gs.flushMessages(); //Flush to avoid multiples when list updating
+	gs.addInfoMessage('Record(s) added to update set ' + currentSet.name + '.');
+	action.setRedirectURL(url);
+}
+
+//Add any attachments to the update set
+function addAttachments(record, table){
+	//Process the main sys_attachment record
+	var attach = new GlideRecord("sys_attachment");
+	attach.addQuery("table_name", table);
+	attach.addQuery("table_sys_id", record.sys_id.toString());
+	attach.query();
+	while (attach.next()) {
+		var updateManager = new GlideUpdateManager2();
+		updateManager.saveRecord(attach);
+		
+		//Process each sys_attachment_doc chunk
+		var attach_doc = new GlideRecord("sys_attachment_doc");
+		attach_doc.addQuery("sys_attachment", attach.sys_id.toString());
+		attach_doc.orderBy("position");
+		attach_doc.query();
+		while (attach_doc.next()) {
+			updateManager.saveRecord(attach_doc);
+		}
+	}
+}]]&gt;&lt;/script&gt;&lt;show_insert&gt;false&lt;/show_insert&gt;&lt;show_multiple_update&gt;false&lt;/show_multiple_update&gt;&lt;show_query&gt;false&lt;/show_query&gt;&lt;show_update&gt;true&lt;/show_update&gt;&lt;sys_class_name&gt;sys_ui_action&lt;/sys_class_name&gt;&lt;sys_created_by&gt;ben.hollifield_SHARE_SHARE&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2013-10-21 00:09:52&lt;/sys_created_on&gt;&lt;sys_customer_update&gt;true&lt;/sys_customer_update&gt;&lt;sys_domain&gt;global&lt;/sys_domain&gt;&lt;sys_id&gt;131e99ed49e8950002ad45cc9609026f&lt;/sys_id&gt;&lt;sys_mod_count&gt;1&lt;/sys_mod_count&gt;&lt;sys_name&gt;Add to Update Set&lt;/sys_name&gt;&lt;sys_overrides/&gt;&lt;sys_package/&gt;&lt;sys_policy/&gt;&lt;sys_replace_on_upgrade&gt;false&lt;/sys_replace_on_upgrade&gt;&lt;sys_scope display_value="Global"&gt;global&lt;/sys_scope&gt;&lt;sys_update_name&gt;sys_ui_action_131e99ed49e8950002ad45cc9609026f&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;ben.hollifield_SHARE&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2016-03-23 14:33:04&lt;/sys_updated_on&gt;&lt;table&gt;global&lt;/table&gt;&lt;ui11_compatible&gt;true&lt;/ui11_compatible&gt;&lt;ui16_compatible&gt;false&lt;/ui16_compatible&gt;&lt;/sys_ui_action&gt;&lt;/record_update&gt;</payload>
+<remote_update_set display_value="Add to Update Set UI Action v1.4">e424e984dbeb7a802ab570d9bf961988</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>david.edgar</sys_created_by>
+<sys_created_on>2017-06-19 12:59:56</sys_created_on>
+<sys_id>a824e984dbeb7a802ab570d9bf961988</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_updated_by>david.edgar</sys_updated_by>
+<sys_updated_on>2017-06-19 12:59:56</sys_updated_on>
+<table>global</table>
+<target_name>Add to Update Set</target_name>
+<type>UI Action</type>
+<update_domain>global</update_domain>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+</unload>
