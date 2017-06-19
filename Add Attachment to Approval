@@ -1,3 +1,7 @@
+ADD TO A BUSINESS RULE ON THE APPROVAL TABLE
+
+
+
 attachApproval();
  
 function attachApproval()
